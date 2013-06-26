@@ -17,13 +17,50 @@ from _common import _CommonActions
 
 
 class _ExistenceKeywords(_CommonActions):
+    """
+    Class that handles all keywords from group 'Existence'.
+    """
 
     def check_if_exists_in_database(self, selectStatement):
+        """
+        Checks that element that satisfies performed query is present in
+        database.
+        If there will be no elements that satisfies performed query, \
+        then this will throw an AssertionError.
+
+        *Arguments:*
+            - selectStatement: string, sql select statement.
+
+        *Return:*
+            - None
+
+        *Examples:*
+        | Check If Exists In Database | select id from employee where \
+        first_name = 'Max' and last_name = 'Beloborodko' |
+        """
+
         assert self.query(selectStatement), \
             ("Expected to have at least one row from '%s' "
                 "but got 0 rows." % selectStatement)
 
     def check_if_not_exists_in_database(self, selectStatement):
+        """
+        Checks that element that assertisfies performed query is not present in
+        database.
+        If there will be elements that satisfies performed query, \
+        then this will throw an AssertionError.
+
+        *Arguments:*
+            - selectStatement: string, sql select statement.
+
+        *Return:*
+            - None
+
+        *Examples:*
+        | Check If Not Exists In Database | select id from employee where \
+        first_name = 'Osama' and last_name = 'bin Laden' |
+        """
+
         queryResults = self.query(selectStatement)
         assert not queryResults, \
             ("Expected to have no rows from '%s' "

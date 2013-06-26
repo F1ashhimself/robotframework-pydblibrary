@@ -17,16 +17,26 @@ from robot.api import logger
 
 
 class _Connection(object):
+    """
+    Connection class that could handle driver connection and driver name
+    """
 
     def __init__(self, driverName, dbConnection):
         self.driverName = driverName
         self.connection = dbConnection
 
     def close(self):
+        """
+        Close database connection.
+        """
+
         self.connection.close()
 
 
 class ConnectionManager(object):
+    """
+    Class that handles connection/disconnection to databases.
+    """
 
     def __init__(self):
         self._connectionCache = ConnectionCache()
@@ -34,6 +44,26 @@ class ConnectionManager(object):
     def connect_to_database(self, driverName=None, dbName=None, username=None,
                             password=None, host='localhost',
                             port="5432", alias=None):
+        """
+        Connects to database.
+
+        *Arguments:*
+            - driverName: string, name of python database driver.
+            - dbName: string, name of database.
+            - username: string, name of user.
+            - password: string, user password.
+            - host: string, database host.
+            - port: int, database port.
+            - alias: string, database alias for future use.
+
+        *Return:*
+            - None
+
+        *Examples:*
+        | Connect To Database | psycopg2 | PyDB | username | password \
+        | localhost | 5432 | SomeCompanyDB |
+        """
+
         dbModule = __import__(driverName)
 
         connParams = {'database': dbName, 'user': username,
@@ -53,6 +83,19 @@ class ConnectionManager(object):
         self._connectionCache.register(dbConnection, alias)
 
     def disconnect_from_database(self):
+        """
+        Disconnects from database.
+
+        *Arguments:*
+            - None
+
+        *Return:*
+            - None
+
+        *Examples:*
+        | Disconnect From Database |
+        """
+
         if self._connectionCache.current:
             self._connectionCache.current.close()
             self._connectionCache.current = self._connectionCache._no_current
@@ -62,7 +105,36 @@ class ConnectionManager(object):
                 self._connectionCache.current_index = None
 
     def disconnect_from_all_databases(self):
+        """
+        Disconnects from all previously opened databases.
+
+        *Arguments:*
+            - None
+
+        *Return:*
+            - None
+
+        *Examples:*
+        | Disconnect From All Databases |
+        """
+
         self._connectionCache.close_all('close')
 
-    def set_current_database(self, alias_or_index):
-        self._connectionCache.switch(alias_or_index)
+    def set_current_database(self, aliasOrIndex):
+        """
+        Sets current database by alias or index.
+
+        *Arguments:*
+            - aliasOrIndex: int or string, alias or index of opened database.
+
+        *Return:*
+            - None
+
+        *Examples:*
+        | # Using index |
+        | Set Current Database | 1 |
+        | # Using alias |
+        | Set Current Database | SomeCompanyDB |
+        """
+
+        self._connectionCache.switch(aliasOrIndex)

@@ -15,9 +15,11 @@
 from _existence import _ExistenceKeywords
 from _execution import _ExecutionKeywords
 from _table import _TableKeywords
+from _rows import _RowsKeywords
 
 __all__ = [
     '_ExistenceKeywords',
     '_ExecutionKeywords',
-    '_TableKeywords'
+    '_TableKeywords',
+    '_RowsKeywords'
 ]

@@ -16,8 +16,23 @@ from robot.api import logger
 
 
 class _CommonActions(object):
+    """
+    Class that contains common keywords for all libraries.
+    """
 
     def _execute_sql(self, sqlStatement, commitNeeded=False):
+        """
+        Executes sql.
+
+        *Arguments:*
+            - sqlStatement: string, sql statement.
+            - commitNeeded: bool, if True - commit will be performed after
+             executing statement.
+
+        *Return:*
+            - Database cursor object.
+        """
+
         try:
             cur = self._connectionCache.current.connection.cursor()
 

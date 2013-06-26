@@ -17,6 +17,9 @@ from _common import _CommonActions
 
 
 class _RowsKeywords(_CommonActions):
+    """
+    Class that handles all keywords from group 'Rows'.
+    """
 
     def rows_count(self, selectStatement):
         """
@@ -29,7 +32,7 @@ class _RowsKeywords(_CommonActions):
             - int, rows count.
 
         *Examples:*
-        |  ${rows_count} | Rows Count | select * from TableName |
+        | ${rows_count} | Rows Count | select * from TableName |
         """
         cur = self._execute_sql(selectStatement)
         return cur.rowcount
@@ -38,7 +41,8 @@ class _RowsKeywords(_CommonActions):
         """
         Verifies that 'selectStatement' query does not fetch any row.
         I.e. row count equals to 0.
-        If the number of rows is greater than 0 then AssertionError is thrown.
+        If the number of rows is greater than 0, \
+        then this will throw an AssertionError.
 
         *Arguments:*
             - selectStatement: string, SQL query.
@@ -57,8 +61,8 @@ class _RowsKeywords(_CommonActions):
         """
         Verifies that number of rows fetched using 'selectStatement'
         equals to 'numRows' value.
-        If the number of rows does not equal to the 'numRows' value then
-        AssertionError is thrown.
+        If the number of rows does not equal to the 'numRows' value, \
+        then this will throw an AssertionError.
 
         *Arguments:*
             - selectStatement: string, SQL query;
@@ -80,7 +84,7 @@ class _RowsKeywords(_CommonActions):
         Verifies that number of rows fetched using 'selectStatement'
         is greater than 'numRows' value.
         If the number of rows equals to the 'numRows' value or is less
-        than it then AssertionError is thrown.
+        than it, then this will throw an AssertionError.
 
         *Arguments:*
             - selectStatement: string, SQL query;
@@ -103,7 +107,7 @@ class _RowsKeywords(_CommonActions):
         Verifies that number of rows fetched using 'selectStatement'
         is less than 'numRows' value.
         If the number of rows equals to the 'numRows' value or is greater
-        than it then AssertionError is thrown.
+        than it, then this will throw an AssertionError.
 
         *Arguments:*
             - selectStatement: string, SQL query;
@@ -143,6 +147,8 @@ class _RowsKeywords(_CommonActions):
         Fetches given columns from the table with given name.
         Verifies that received content in the row with number rowNumValue
         equal to the given expected values.
+        If expected content will be not equal to actual, \
+        then this will throw an AssertionError.
 
         *Arguments:*
             - colNames: list, column names to be retrieved from DB;
@@ -154,7 +160,8 @@ class _RowsKeywords(_CommonActions):
             - None.
 
         *Examples:*
-        | Check Content For Row Identified By Rownum | name,surname | 'John','Doe', | TableName | 50 |
+        | Check Content For Row Identified By Rownum | name,surname | 'John', \
+        'Doe', | TableName | 50 |
         """
         assert len(colNames) == len(expectedValues),\
             "'colNames' and 'expectedValues' should have the same length."
@@ -183,6 +190,8 @@ class _RowsKeywords(_CommonActions):
         Fetches given columns from the 'tableName' table using where-clause.
         Verifies that content in the received row equals to the given
         expected values.
+        If expected content will be not equal to actual, \
+        then this will throw an AssertionError.
 
         *Arguments:*
             - colNames: list, column names to be retrieved from DB;
@@ -194,7 +203,8 @@ class _RowsKeywords(_CommonActions):
             - None.
 
         *Examples:*
-        | Check Content For Row Identified By Where Clause | id,surname | 50,'Doe', | TableName | name = 'John' |
+        | Check Content For Row Identified By Where Clause | id,surname | 50, \
+        'Doe', | TableName | name = 'John' |
         """
         assert len(colNames) == len(expectedValues),\
             "'colNames' and 'expectedValues' should have the same length."
@@ -224,6 +234,8 @@ class _RowsKeywords(_CommonActions):
         'tableName'.
         Verifies that number of rows equals to the given rowNumValue,
         otherwise AssertionError is thrown.
+        If number of rows will be not equal to actual, \
+        then this will throw an AssertionError.
 
         *Arguments:*
             - tableName: string, table name;
@@ -234,7 +246,7 @@ class _RowsKeywords(_CommonActions):
             - None.
 
         *Examples:*
-        | Verify Number Of Rows Matching Where | TableName | name = 'John' | 12 |
+        | Verify Number Of Rows Matching Where | TableName | name='John' | 12 |
         """
         selectStatement = "select * from %s where %s" % (tableName, where)
         count = self.rows_count(selectStatement)
@@ -247,7 +259,8 @@ class _RowsKeywords(_CommonActions):
         """
         Verifies that table with given 'tableName' doesn't have rows
         matching given where-clause statement.
-        If the number of rows is greater than 0 then AssertionError is thrown.
+        If the number of rows is greater than 0, \
+        then this will throw an AssertionError.
 
         *Arguments:*
             - tableName: string, table name
