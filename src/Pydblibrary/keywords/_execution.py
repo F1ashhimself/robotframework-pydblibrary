@@ -101,6 +101,7 @@ class _ExecutionKeywords(_CommonActions):
         assert len(result) == 1, \
             ("Expected to have 1 row from '%s' "
                 "but got %s rows : %s." % (sqlStatement, len(result), result))
+        logger.debug("Got 1 row from %s: %s." % (sqlStatement, result))
 
         return result[0]
 
@@ -109,7 +110,7 @@ class _ExecutionKeywords(_CommonActions):
         """
         Checks that fetched results of performed query on two
         databases are equal.
-        If DB elements will not be equal, then this will \
+        If DB elements will not be equal, then this will
         throw an AssertionError.
 
         *Arguments:*
@@ -134,13 +135,16 @@ class _ExecutionKeywords(_CommonActions):
         assert set(result[0]) == set(result[1]), \
             "Expected to have equal elements but '%s' is not equal to '%s'" \
             % (result[0], result[1])
+        logger.debug("Results fetched from %s on %s and %s databases are"
+                     " equal." % (selectStatement, firstAliasOrIndex,
+                                  secondAliasOrIndex))
 
     def db_elements_are_not_equal(self, selectStatement, firstAliasOrIndex,
                                   secondAliasOrIndex):
         """
         Checks that fetched results of performed query on two
         databases are not equal.
-        If DB elements will be equal, then this will \
+        If DB elements will be equal, then this will
         throw an AssertionError.
 
         *Arguments:*
@@ -165,6 +169,9 @@ class _ExecutionKeywords(_CommonActions):
         assert set(result[0]) != set(result[1]), \
             ("Expected to have not equal elements but they equal. "
              "Query result:'%s'" % (result[0]))
+        logger.debug("Results fetched from %s on %s and %s databases are"
+                     " not equal." % (selectStatement, firstAliasOrIndex,
+                                      secondAliasOrIndex))
 
     def _get_elements_from_two_db(self, selectStatement, firstAliasOrIndex,
                                   secondAliasOrIndex):
@@ -192,4 +199,4 @@ class _ExecutionKeywords(_CommonActions):
 
         self.set_current_database(currentDbIndex)  # Back to initial database.
 
-        return (firstResult, secondResult)
+        return firstResult, secondResult

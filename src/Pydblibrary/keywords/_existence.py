@@ -38,10 +38,11 @@ class _ExistenceKeywords(_CommonActions):
         | Check If Exists In Database | select id from employee where \
         first_name = 'Max' and last_name = 'Beloborodko' |
         """
-
-        assert self.query(selectStatement), \
-            ("Expected to have at least one row from '%s' "
-                "but got 0 rows." % selectStatement)
+        queryResults = self.query(selectStatement)
+        assert queryResults, ("Expected to have at least one row from '%s' "
+                        "but got 0 rows." % selectStatement)
+        logger.debug("Got row(s): %s \n from '%s' query." % (queryResults,
+                                                             selectStatement))
 
     def check_if_not_exists_in_database(self, selectStatement):
         """
@@ -65,3 +66,4 @@ class _ExistenceKeywords(_CommonActions):
         assert not queryResults, \
             ("Expected to have no rows from '%s' "
                 "but got some rows : %s." % (selectStatement, queryResults))
+        logger.debug("Got 0 rows from '%s' query." % selectStatement)

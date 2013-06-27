@@ -44,4 +44,5 @@ class _CommonActions(object):
 
         finally:
             if cur:
+                logger.debug("Rolling back: %s" % sqlStatement)
                 self._connectionCache.current.connection.rollback()
