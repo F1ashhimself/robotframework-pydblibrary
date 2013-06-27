@@ -98,6 +98,14 @@ class ConnectionManager(object):
 
         if self._connectionCache.current:
             self._connectionCache.current.close()
+
+            curIndex = self._connectionCache.current_index
+            aliasesCache = self._connectionCache._aliases
+            if curIndex in aliasesCache.values():
+                keyForDeletion = \
+                    aliasesCache.keys()[aliasesCache.values().index(curIndex)]
+                del self._connectionCache._aliases[keyForDeletion]
+
             self._connectionCache.current = self._connectionCache._no_current
             cls_attr = getattr(type(self._connectionCache),
                                'current_index', None)
