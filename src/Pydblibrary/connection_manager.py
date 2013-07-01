@@ -64,13 +64,17 @@ class ConnectionManager(object):
         | localhost | 5432 | SomeCompanyDB |
         """
 
-        dbModule = __import__(driverName)
+        if isinstance(driverName, str):
+            dbModule = __import__(driverName)
+        else:
+            dbModule = driverName
+            driverName = 'Mock DB Driver'
 
         connParams = {'database': dbName, 'user': username,
                       'password': password, 'host': host, 'port': port}
         if driverName in ("MySQLdb", "pymysql"):
-            connParams = {'db': dbName, 'user': username, 'passwd': password,
-                          'host': host, 'port': port}
+            connParams = {'db': dbName, 'user': username,
+                          'passwd': password, 'host': host, 'port': port}
         elif driverName in ("psycopg2"):
             connParams = {'database': dbName, 'user': username,
                           'password': password, 'host': host, 'port': port}

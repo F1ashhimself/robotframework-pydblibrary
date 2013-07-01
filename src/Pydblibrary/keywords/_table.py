@@ -36,10 +36,10 @@ class _TableKeywords(_CommonActions):
         | Table Must Exist | employee |
         """
 
-        selectStatement = "SELECT * FROM information_schema.tables WHERE \
-        table_name='%s'" % tableName
+        selectStatement = ("SELECT * FROM information_schema.tables WHERE "
+                           "table_name='%s'") % tableName
 
-        rowsCount = self.row_count(selectStatement)
+        rowsCount = self.rows_count(selectStatement)
         assert rowsCount, 'Table %s does not exist.' % tableName
 
     def table_must_be_empty(self, tableName):
@@ -59,8 +59,8 @@ class _TableKeywords(_CommonActions):
 
         selectStatement = "SELECT * FROM %s" % tableName
 
-        rowsCount = self.row_count(selectStatement)
-        assert rowsCount, 'Table %s is not empty.' % tableName
+        rowsCount = self.rows_count(selectStatement)
+        assert not rowsCount, 'Table %s is not empty.' % tableName
 
     def table_must_contain_less_than_number_of_rows(self, tableName,
                                                     rowsNumber):
@@ -82,7 +82,7 @@ class _TableKeywords(_CommonActions):
 
         selectStatement = "SELECT * FROM %s" % tableName
 
-        rowsCount = self.row_count(selectStatement)
+        rowsCount = self.rows_count(selectStatement)
         assert rowsCount < rowsNumber,\
             ('Table %s has %s row(s) but should have less than %s row(s).'
                 % (tableName, rowsCount, rowsNumber))
@@ -107,7 +107,7 @@ class _TableKeywords(_CommonActions):
 
         selectStatement = "SELECT * FROM %s" % tableName
 
-        rowsCount = self.row_count(selectStatement)
+        rowsCount = self.rows_count(selectStatement)
         assert rowsCount > rowsNumber,\
             ('Table %s has %s row(s) but should have more than %s row(s).'
                 % (tableName, rowsCount, rowsNumber))
@@ -131,7 +131,7 @@ class _TableKeywords(_CommonActions):
 
         selectStatement = "SELECT * FROM %s" % tableName
 
-        rowsCount = self.row_count(selectStatement)
+        rowsCount = self.rows_count(selectStatement)
         assert rowsCount == rowsNumber,\
             ('Table %s has %s row(s) but should have %s row(s).'
                 % (tableName, rowsCount, rowsNumber))

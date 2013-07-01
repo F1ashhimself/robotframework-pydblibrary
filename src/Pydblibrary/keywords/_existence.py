@@ -45,7 +45,7 @@ class _ExistenceKeywords(_CommonActions):
 
     def check_if_not_exists_in_database(self, selectStatement):
         """
-        Checks that element that assertisfies performed query is not present in
+        Checks that element that satisfies performed query is not present in
         database.
         If there will be elements that satisfies performed query, \
         then this will throw an AssertionError.
