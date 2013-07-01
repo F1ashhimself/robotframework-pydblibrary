@@ -73,8 +73,8 @@ class ConnectionManager(object):
         connParams = {'database': dbName, 'user': username,
                       'password': password, 'host': host, 'port': port}
         if driverName in ("MySQLdb", "pymysql"):
-            connParams = {'db': dbName, 'user': username,
-                          'passwd': password, 'host': host, 'port': port}
+            connParams = {'db': dbName, 'user': username, 'passwd': password,
+                          'host': host, 'port': port}
         elif driverName in ("psycopg2"):
             connParams = {'database': dbName, 'user': username,
                           'password': password, 'host': host, 'port': port}
@@ -85,6 +85,8 @@ class ConnectionManager(object):
         dbConnection = _Connection(driverName, dbModule.connect(**connParams))
 
         self._connectionCache.register(dbConnection, alias)
+        logger.info("Established connection to the %s database. "
+                    "Alias %s. Driver name: %s." % (dbName, alias, driverName))
 
     def disconnect_from_database(self):
         """
@@ -111,6 +113,7 @@ class ConnectionManager(object):
                 del self._connectionCache._aliases[keyForDeletion]
 
             self._connectionCache.current = self._connectionCache._no_current
+            logger.info("Current database was disconnected.")
             cls_attr = getattr(type(self._connectionCache),
                                'current_index', None)
             if isinstance(cls_attr, property) and cls_attr.fset is not None:
@@ -131,6 +134,7 @@ class ConnectionManager(object):
         """
 
         self._connectionCache.close_all('close')
+        logger.info("All databases were disconnected.")
 
     def set_current_database(self, aliasOrIndex):
         """
@@ -150,3 +154,4 @@ class ConnectionManager(object):
         """
 
         self._connectionCache.switch(aliasOrIndex)
+        logger.info("Connection switched to the %s database." % aliasOrIndex)

@@ -56,6 +56,7 @@ class _RowsKeywords(_CommonActions):
         count = self.rows_count(selectStatement)
         assert not count, ("Expected to have 0 rows from '%s', "
                            "but got %s rows." % (selectStatement, count))
+        logger.debug("Got 0 rows from %s." % selectStatement)
 
     def row_count_is_equal_to_x(self, selectStatement, numRows):
         """
@@ -78,6 +79,7 @@ class _RowsKeywords(_CommonActions):
         assert count == numRows, ("Expected to have %s rows from '%s', but "
                                   "got %s rows." % (numRows, selectStatement,
                                                     count))
+        logger.debug("Got %s rows from %s." % (numRows, selectStatement))
 
     def row_count_is_greater_than_x(self, selectStatement, numRows):
         """
@@ -101,6 +103,7 @@ class _RowsKeywords(_CommonActions):
                                  "'%s', but got %s rows." % (numRows,
                                                              selectStatement,
                                                              count))
+        logger.debug("Got %s rows from %s." % (numRows, selectStatement))
 
     def row_count_is_less_than_x(self, selectStatement, numRows):
         """
@@ -124,6 +127,7 @@ class _RowsKeywords(_CommonActions):
                                  "'%s', but got %s rows." % (numRows,
                                                              selectStatement,
                                                              count))
+        logger.debug("Got %s rows from %s." % (numRows, selectStatement))
 
     def delete_all_rows_from_table(self, tableName):
         """
@@ -139,6 +143,7 @@ class _RowsKeywords(_CommonActions):
         | Delete All Rows From Table | TableName |
         """
         self._execute_sql("delete from %s" % tableName, True)
+        logger.info("All rows are deleted from table '%s'." % tableName)
 
     def check_content_for_row_identified_by_rownum(self, colNames,
                                                    expectedValues, tableName,
@@ -182,16 +187,19 @@ class _RowsKeywords(_CommonActions):
                                        "to '%s', but got '%s'." %
                                        (n, rowNumValue, e, a) for n, e, a in
                                        result]))
+        logger.debug("Content for row %s equals to the expected values %s." %
+                     (rowNumValue, expectedValues))
 
     def check_content_for_row_identified_by_where_clause(self, colNames,
                                                          expectedValues,
                                                          tableName, where):
         """
         Fetches given columns from the 'tableName' table using where-clause.
+        Where-clause should uniquely identify only one row.
         Verifies that content in the received row equals to the given
         expected values.
-        If expected content will be not equal to actual, \
-        then this will throw an AssertionError.
+        If expected content will be not equal to actual, then this will throw
+        an AssertionError.
 
         *Arguments:*
             - colNames: list, column names to be retrieved from DB;
@@ -209,15 +217,9 @@ class _RowsKeywords(_CommonActions):
         assert len(colNames) == len(expectedValues),\
             "'colNames' and 'expectedValues' should have the same length."
 
-        selectStatement = "select %s from %s where %s" % (",".join(colNames),
-                                                          tableName, where)
-        actualValues = self.query(selectStatement)
-
-        assert len(actualValues) == 1, ("Expected to get 1 row for 'where %s' "
-                                        "statement, but got %s." %
-                                        (where, len(actualValues)))
-        actualValues = actualValues[0]
-
+        actualValues = \
+            self.read_single_value_from_table(tableName, ",".join(colNames),
+                                              where)
         result = []
         for i, col in enumerate(colNames):
             if expectedValues[i] != actualValues[i]:
@@ -226,6 +228,9 @@ class _RowsKeywords(_CommonActions):
         assert not result, ('\n'.join(["Expected that '%s' equals to '%s', "
                                        "but got '%s'." % (n, e, a)
                                        for n, e, a in result]))
+        logger.debug("Content for row which corresponds to the 'where %s'"
+                     "statement equals to the expected values %s." %
+                     (where, expectedValues))
 
     def verify_number_of_rows_matching_where(self, tableName, where,
                                              rowNumValue):
@@ -254,6 +259,8 @@ class _RowsKeywords(_CommonActions):
         assert count == rowNumValue, ("Expected to get %s row(s) for where-"
                                       "clause statement '%s', but got %s." %
                                       (rowNumValue, where, count))
+        logger.debug("Number of rows matching 'where %s' statement equals to"
+                     "%s." % (where, rowNumValue))
 
     def row_should_not_exist_in_table(self, tableName, where):
         """
@@ -279,3 +286,5 @@ class _RowsKeywords(_CommonActions):
                                         "clause statement '%s', but got %s: "
                                         "%s." % (where, len(actualValues),
                                                  actualValues))
+        logger .debug("There is no rows matching 'where %s' statement." %
+                      where)

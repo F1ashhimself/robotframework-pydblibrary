@@ -41,6 +41,7 @@ class _TableKeywords(_CommonActions):
 
         rowsCount = self.rows_count(selectStatement)
         assert rowsCount, 'Table %s does not exist.' % tableName
+        logger.debug("Table %s exists." % tableName)
 
     def table_must_be_empty(self, tableName):
         """
@@ -61,6 +62,7 @@ class _TableKeywords(_CommonActions):
 
         rowsCount = self.rows_count(selectStatement)
         assert not rowsCount, 'Table %s is not empty.' % tableName
+        logger.debug("Table %s is empty." % tableName)
 
     def table_must_contain_less_than_number_of_rows(self, tableName,
                                                     rowsNumber):
@@ -86,6 +88,7 @@ class _TableKeywords(_CommonActions):
         assert rowsCount < rowsNumber,\
             ('Table %s has %s row(s) but should have less than %s row(s).'
                 % (tableName, rowsCount, rowsNumber))
+        logger.debug("Table %s contains %s row(s)." % (tableName, rowsCount))
 
     def table_must_contain_more_than_number_of_rows(self, tableName,
                                                     rowsNumber):
@@ -111,6 +114,7 @@ class _TableKeywords(_CommonActions):
         assert rowsCount > rowsNumber,\
             ('Table %s has %s row(s) but should have more than %s row(s).'
                 % (tableName, rowsCount, rowsNumber))
+        logger.debug("Table %s contains %s row(s)." % (tableName, rowsCount))
 
     def table_must_contain_number_of_rows(self, tableName, rowsNumber):
         """
@@ -135,6 +139,7 @@ class _TableKeywords(_CommonActions):
         assert rowsCount == rowsNumber,\
             ('Table %s has %s row(s) but should have %s row(s).'
                 % (tableName, rowsCount, rowsNumber))
+        logger.debug("Table %s contains %s row(s)." % (tableName, rowsCount))
 
     def get_primary_key_columns_for_table(self, tableName):
         """
@@ -179,7 +184,7 @@ class _TableKeywords(_CommonActions):
     def check_primary_key_columns_for_table(self, tableName, columns):
         """
         Checks that specified primary key columns equal to table key columns.
-        If table contains less or nire number of rows than specified, \
+        If table contains less or greater number of rows than specified,
         then this will throw an AssertionError.
 
         *Note:* This method works only with 'psycopg2' driver.
@@ -204,6 +209,8 @@ class _TableKeywords(_CommonActions):
         assert set(tableColumns) == set(columns),\
             ('Primary key columns %s in table %s do not match '
              'with specified %s.' % (tableColumns, tableName, columns))
+        logger.debug("Primary key columns %s in table %s match with specified"
+                     " %s." % (tableColumns, tableName, columns))
 
     def get_transaction_isolation_level(self):
         """
@@ -233,6 +240,7 @@ class _TableKeywords(_CommonActions):
 
         result = 'TRANSACTION_%s' % \
                  self.query(selectStatement)[0][0].replace(' ', '_').upper()
+        logger.debug("Transaction isolation level is %s." % result)
 
         return result
 
@@ -262,3 +270,4 @@ class _TableKeywords(_CommonActions):
         assert transactionLevel.upper() == result, \
             ("Expected transaction isolation level '%s' "
                 "but current is '%s'." % (transactionLevel.upper(), result))
+        logger.debug("Transaction isolation level is %s." % result)
