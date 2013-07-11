@@ -12,8 +12,13 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from os.path import join, dirname
 from connection_manager import ConnectionManager
 from keywords import *
+
+execfile(join(dirname(__file__), 'version.py'))
+
+__version__ = VERSION
 
 
 class Pydblibrary(ConnectionManager, _ExistenceKeywords, _ExecutionKeywords,
@@ -60,4 +65,4 @@ class Pydblibrary(ConnectionManager, _ExistenceKeywords, _ExecutionKeywords,
     """
 
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
-    __version__ = '1.0'
+    ROBOT_LIBRARY_VERSION = VERSION

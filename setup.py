@@ -12,18 +12,15 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import sys
 from setuptools import setup
 from os.path import join, dirname
 
-sys.path.append(join(dirname(__file__), 'src'))
-
-from Pydblibrary import Pydblibrary
+execfile(join(dirname(__file__), 'src', 'Pydblibrary', 'version.py'))
 
 
 setup(
     name='robotframework-pydblibrary',
-    version=Pydblibrary.__version__,
+    version=VERSION,
     author='Max Beloborodko',
     author_email='f1ashhimself@gmail.com',
     url='https://github.com/F1ashhimself/robotframework-pydblibrary',
