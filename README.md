@@ -1,4 +1,4 @@
-Robotframework-Pydblibrary
+Robotframework-Pydblibrary [![Build Status](https://api.travis-ci.org/F1ashhimself/robotframework-pydblibrary.svg?branch=master)](https://travis-ci.org/F1ashhimself/robotframework-pydblibrary)
 ==========================
 
 This library supports database-related testing using the Robot Framework.
