@@ -26,7 +26,7 @@ setup(
     url='https://github.com/F1ashhimself/robotframework-pydblibrary',
     license='Apache License 2.0',
     description='Python Database utility library for Robot Framework',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     package_dir={'': 'src'},
     packages=['Pydblibrary', 'Pydblibrary.keywords'],
     test_suite='test',
