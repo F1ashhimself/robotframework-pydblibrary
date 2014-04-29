@@ -13,9 +13,17 @@
 #    under the License.
 
 from setuptools import setup
-from os.path import join, dirname
+from os.path import join, dirname, exists
 
 execfile(join(dirname(__file__), 'src', 'Pydblibrary', 'version.py'))
+
+
+def package_env(file_name, strict=False):
+    file_path = join(dirname(__file__), file_name)
+    if exists(file_path) or strict:
+        return open(file_path).read()
+    else:
+        return ''
 
 
 setup(
@@ -26,7 +34,7 @@ setup(
     url='https://github.com/F1ashhimself/robotframework-pydblibrary',
     license='Apache License 2.0',
     description='Python Database utility library for Robot Framework',
-    long_description=open('README.md').read(),
+    long_description=package_env('README.rst'),
     package_dir={'': 'src'},
     packages=['Pydblibrary', 'Pydblibrary.keywords'],
     test_suite='test',
