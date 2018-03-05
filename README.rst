@@ -4,10 +4,10 @@ Robotframework-Pydblibrary
 .. image:: https://api.travis-ci.org/F1ashhimself/robotframework-pydblibrary.svg?branch=master
         :alt: Build Status
         :target: https://travis-ci.org/F1ashhimself/robotframework-pydblibrary
-.. image:: https://pypip.in/v/robotframework-pydblibrary/badge.png
+.. image:: https://img.shields.io/pypi/v/robotframework-pydblibrary.svg
         :alt: Release Status
         :target: https://pypi.python.org/pypi/robotframework-pydblibrary
-.. image:: https://pypip.in/d/robotframework-pydblibrary/badge.png
+.. image:: https://img.shields.io/pypi/dm/robotframework-pydblibrary.svg
         :alt: Downloads
         :target: https://pypi.python.org/pypi/robotframework-pydblibrary
 
